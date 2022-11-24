@@ -6,6 +6,7 @@
   - v1) session에 로그인 값 저장
   - v2) jwt 쿠키에 값 저장
   - v3) security로 로그인 권한 구현
+  - v4) security로 OAuth2.0 로그인 구현
 
 
 2. 개인 custom board 기능
