@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<body>
+<table>
+  <tr>
+      <td><label for="id">id</label></td>
+      <td><input id="id" type="text"></td>
+  </tr>
+    <tr>
+        <td><label for="password">pw</label></td>
+        <td><input id="password" type="password"></td>
+    </tr>
+    <tr>
+        <td><label for="password_confirm">pw-confirm</label></td>
+        <td><input id="password_confirm" type="password"></td>
+    </tr>
+    <tr>
+        <td><label for="email">email</label></td>
+        <td><input id="email" type="email"/></td>
+    </tr>
+    <tr>
+        <td><label for="name">name</label></td>
+        <td><input id="name" type="text"/></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <input type="button">
+        </td>
+    </tr>
+</table>
+<script>
+  const join =()=>{
+    let params = {
+      user_id : $('#id').val(),
+      user_password : $('#password').val(),
+      email : $('#email').val(),
+      name : $('#name').val()
+    }
+
+    $.ajax({
+      url : '/join',
+      method : 'post',
+      data : JSON.stringify(params),
+      dataType : 'json',
+      contentType : 'application/json',
+      success : (data)=>{
+
+      },
+      error : (e)=>{
+
+      }
+    });
+  }
+
+</script>
+
+
+</body>
+</html>

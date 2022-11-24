@@ -3,11 +3,13 @@ package com.box.boilerplate.member;
 
 import com.box.boilerplate.member.model.MemberEntity;
 import com.box.boilerplate.member.service.MemberService;
+import com.box.boilerplate.member.vo.JoinParamVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Member;
 import java.util.HashMap;
 
 @Slf4j
@@ -30,7 +32,7 @@ public class MemberController {
         String result = memberService.loginMember(memberEntity);
         HashMap<String, Object> map = new HashMap<>();
         map.put("result",result);
-        if(result.equals("loginSeccess")){
+        if(result.equals("loginSuccess")){
             session.setAttribute("loginId",params.get("user_id"));
         }
 
@@ -46,7 +48,17 @@ public class MemberController {
 
     @PostMapping("/join")
     @ResponseBody
-    public HashMap<String,Object> join(){
+    public HashMap<String,Object> join(@RequestBody JoinParamVO param){
+
+        MemberEntity memberEntity = new MemberEntity();
+        memberEntity.setUser_id(param.getUser_id());
+        memberEntity.setUser_pw(param.getUser_pw());
+        memberEntity.setEmail(param.getEmail());
+        memberEntity.setUser_name(param.getName());
+        memberEntity.setRole("USER");
+
+        memberService.joinMember(memberEntity);
+
 
         return null;
     }

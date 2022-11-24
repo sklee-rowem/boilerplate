@@ -4,6 +4,7 @@ import com.box.boilerplate.member.model.MemberEntity;
 import com.box.boilerplate.member.repository.MemberRepository;
 import com.box.boilerplate.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,9 +16,13 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberEntity joinMember(MemberEntity params) {
 
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String enc_pw = bCryptPasswordEncoder.encode(params.getUser_pw());
+        params.setUser_pw(enc_pw);
+        MemberEntity saveMember = memberRepository.save(params);
 
 
-        return null;
+        return saveMember;
     }
 
     @Override
