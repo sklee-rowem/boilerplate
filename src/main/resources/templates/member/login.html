@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<body>
+<table>
+  <tr>
+    <td>userid</td>
+    <td><input id="user_id" type="text"/></td>
+  </tr>
+  <tr>
+    <td>userpw</td>
+    <td><input id="user_password" type="password"/></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>
+      <input type="button" value="login"/>
+      <a href="/">main</a>
+      <a href="/join">join</a>
+    </td>
+  </tr>
+
+</table>
+<script>
+  const join =()=>{
+    let params = {
+      user_id : $('#user_id').val(),
+      user_password : $('#user_password').val()
+    }
+
+    $.ajax({
+      url : '/join',
+      method : 'post',
+      data : JSON.stringify(params),
+      dataType : 'josn',
+      contentType : 'application/json',
+      success : (data)=>{
+
+      },
+      error : (e)=>{
+
+      }
+    });
+  }
+
+</script>
+
+
+</body>
+</html>

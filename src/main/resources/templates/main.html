@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+    var CurrentFileName = document.URL.substring(document.URL.lastIndexOf("/") + 1, document.URL.lastIndexOf("/") + 30);
+    $('title').html(CurrentFileName);
+
+</script>
+<body>
+<a href="https://yjh5369.tistory.com/entry/intellij%EC%97%90%EC%84%9C-static-resourcehtml-js-%EB%93%B1-%EB%B0%94%EB%A1%9C-%EB%B0%98%EC%98%81%EB%90%98%EA%B2%8C-%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95-for-spring-boot">
+    Intellij static파일 수정 자동반영
+</a>
+<ul>
+    <li><a href="/login">Login</a></li>
+    <li><a href="/board">Board</a></li>
+    <li><a href="/todo">Todo</a></li>
+</ul>
+</body>
+</html>
