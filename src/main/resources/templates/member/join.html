@@ -9,7 +9,7 @@
 <table>
   <tr>
       <td><label for="id">id</label></td>
-      <td><input id="id" type="text"></td>
+      <td><input id="id" type="text"><input type="button" value="중복확인" onclick="duplicateCheck()"></td>
   </tr>
     <tr>
         <td><label for="password">pw</label></td>
@@ -30,18 +30,57 @@
     <tr>
         <td></td>
         <td>
-            <input type="button">
+            <input type="button" value="join" onclick="join()">
+            <a href="/login">로그인창으로</a>
+
         </td>
     </tr>
 </table>
 <script>
+    let duplicate = false;
+
+
+    const duplicateCheck =()=>{
+        let userId = $('#id').val();
+
+        $.ajax({
+            url : 'duplicate-check?userId='+userId,
+            type : 'get',
+            // data : JSON.stringify(param),
+            // dataType : 'json',
+            // contentType: 'application/json',
+            success : (data)=>{
+                console.log(data)
+                if(data.errorCode === "0001"){
+                    alert('사용가능한 ID입니다.');
+                    duplicate = true
+                } else if(data.errorCode === "9998") {
+                    alert('중복된 ID 입니다.')
+                    duplicate = false
+                }
+
+
+            },
+            error : (e)=>{console.log(e)}
+        })
+    }
+
+
+
+
   const join =()=>{
     let params = {
       user_id : $('#id').val(),
-      user_password : $('#password').val(),
+      user_pw : $('#password').val(),
       email : $('#email').val(),
       name : $('#name').val()
     }
+    console.log(params);
+    if(!duplicate) {
+        alert('ID 중복체크 해주세요')
+        return
+    }
+
 
     $.ajax({
       url : '/join',
@@ -50,7 +89,13 @@
       dataType : 'json',
       contentType : 'application/json',
       success : (data)=>{
-
+        console.log(data);
+        if(data.errorCode === "0000"){
+            alert('회원가입이 완료됬습니다.');
+            location.href='/login';
+        } else {
+            alert('회원가입이 불가합니다.');
+        }
       },
       error : (e)=>{
 

@@ -18,19 +18,19 @@
   <tr>
     <td></td>
     <td>
-      <input type="button" value="login"/>
+      <input type="button" value="login" onclick="login()"/>
       <a href="/">main</a>
       <a href="/join">join</a>
     </td>
   </tr>
-
 </table>
 <script>
   const login =()=>{
     let params = {
       user_id : $('#user_id').val(),
-      user_password : $('#user_password').val()
+      user_pw : $('#user_password').val()
     }
+    console.log(params);
 
     $.ajax({
       url : '/login',
@@ -39,7 +39,12 @@
       dataType : 'json',
       contentType : 'application/json',
       success : (data)=>{
-
+        console.log(data)
+        if(data.errorCode === '0000') {
+          location.href='/'
+        } else if (data.errorCode === '9997') {
+          alert(data.errorMessage)
+        }
       },
       error : (e)=>{
 

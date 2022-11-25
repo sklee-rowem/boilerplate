@@ -1,12 +1,14 @@
 package com.box.boilerplate.member.service;
 
+import com.box.boilerplate.common.vo.ResultVO;
 import com.box.boilerplate.member.model.MemberEntity;
 
 public interface MemberService {
 
-    MemberEntity joinMember(MemberEntity params);
+    ResultVO<?> joinMember(MemberEntity params);
 
-    String loginMember(MemberEntity params);
+    ResultVO<?> loginMember(MemberEntity params) throws Exception;
 
 
+    ResultVO<?> userIdDuplicateCheck(String userId);
 }

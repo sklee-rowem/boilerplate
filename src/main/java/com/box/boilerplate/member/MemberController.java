@@ -1,10 +1,13 @@
 package com.box.boilerplate.member;
 
 
+import com.box.boilerplate.common.ErrorCode;
+import com.box.boilerplate.common.vo.ResultVO;
 import com.box.boilerplate.member.model.MemberEntity;
 import com.box.boilerplate.member.service.MemberService;
 import com.box.boilerplate.member.vo.JoinParamVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +19,7 @@ import java.util.HashMap;
 @Controller
 public class MemberController {
 
+    @Autowired
     private MemberService memberService;
 
     @GetMapping("/login")
@@ -25,18 +29,16 @@ public class MemberController {
 
     @PostMapping("/login")
     @ResponseBody
-    public HashMap<String,Object> login(HttpSession session, @RequestBody HashMap<String,String> params){
+    public ResultVO<?> login(HttpSession session, @RequestBody HashMap<String,String> params) throws Exception{
         MemberEntity memberEntity = new MemberEntity();
-        memberEntity.setUser_id(params.get("user_id"));
-        memberEntity.setUser_pw(params.get("user_pw"));
-        String result = memberService.loginMember(memberEntity);
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("result",result);
-        if(result.equals("loginSuccess")){
+        memberEntity.setUserId(params.get("user_id"));
+        memberEntity.setUserPw(params.get("user_pw"));
+        ResultVO<?> result = memberService.loginMember(memberEntity);
+
+        if(result.getErrorCode().equals(ErrorCode.SUCCESS.getCode())){
             session.setAttribute("loginId",params.get("user_id"));
         }
-
-        return map;
+        return result;
     }
 
     @GetMapping("/join")
@@ -48,19 +50,25 @@ public class MemberController {
 
     @PostMapping("/join")
     @ResponseBody
-    public HashMap<String,Object> join(@RequestBody JoinParamVO param){
-
+    public ResultVO<?> join(@RequestBody JoinParamVO param){
+        log.info("param : {}",param.toString());
         MemberEntity memberEntity = new MemberEntity();
-        memberEntity.setUser_id(param.getUser_id());
-        memberEntity.setUser_pw(param.getUser_pw());
+        memberEntity.setUserId(param.getUser_id());
+        memberEntity.setUserPw(param.getUser_pw());
         memberEntity.setEmail(param.getEmail());
-        memberEntity.setUser_name(param.getName());
+        memberEntity.setUserName(param.getName());
         memberEntity.setRole("USER");
 
-        memberService.joinMember(memberEntity);
 
-
-        return null;
+        return memberService.joinMember(memberEntity);
     }
 
+
+
+    @GetMapping("/duplicate-check")
+    @ResponseBody
+    public ResultVO<?> userIdDuplicateCheck(@RequestParam String userId){
+        log.info("duplicate-check : {}",userId);
+        return memberService.userIdDuplicateCheck(userId);
+    }
 }
