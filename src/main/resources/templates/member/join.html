@@ -37,7 +37,60 @@
     </tr>
 </table>
 <script>
-    let duplicate = false;
+    class joinProcess {
+        constructor() {
+            this.duplicate = false;
+            this.id = false;
+            this.pw = false;
+            this.email = false;
+            this.name = false;
+            this.pw_confirm = false;
+        }
+        checkDuplicate(){
+            if(this.duplicate){
+                return true
+            } else {
+                alert('ID 중복체크를 해주세요')
+                return false
+            }
+        }
+        checkEmail(){
+            if(this.email){
+                return true
+            } else {
+                alert('email 을 입력해주세요')
+                return false
+            }
+        }
+        checkId(){
+            if(this.id){
+                return true
+            } else {
+                alert('id을 입력해주세요')
+                return false
+            }
+        }
+
+
+
+        joinProcessResult(){
+            if(this.duplicate
+                && this.email
+                && this.id
+                && this.name
+                && this.pw
+                && this.pw_confirm){
+                return true
+            } else {
+                return false
+            }
+
+        }
+
+    }
+
+    const joinValidation = new joinProcess();
+
 
 
     const duplicateCheck =()=>{
@@ -53,10 +106,10 @@
                 console.log(data)
                 if(data.errorCode === "0001"){
                     alert('사용가능한 ID입니다.');
-                    duplicate = true
+                    joinValidation.duplicate = true
                 } else if(data.errorCode === "9998") {
                     alert('중복된 ID 입니다.')
-                    duplicate = false
+                    joinValidation.duplicate = false
                 }
 
 
@@ -76,7 +129,7 @@
       name : $('#name').val()
     }
     console.log(params);
-    if(!duplicate) {
+    if(!joinValidation.duplicate) {
         alert('ID 중복체크 해주세요')
         return
     }
