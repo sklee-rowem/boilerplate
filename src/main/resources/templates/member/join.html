@@ -46,7 +46,18 @@
             this.name = false;
             this.pw_confirm = false;
         }
+
+        userInfo(){
+            return {
+                user_id: this.id,
+                user_pw: this.pw,
+                email: this.email,
+                name: this.name
+            }
+        }
+
         checkDuplicate(){
+
             if(this.duplicate){
                 return true
             } else {
@@ -54,7 +65,17 @@
                 return false
             }
         }
+        checkId(){
+            this.id = ($('#id').val() !== '')
+            if(this.id){
+                return true
+            } else {
+                alert('아이디를 입력해주세요')
+                return false
+            }
+        }
         checkEmail(){
+            this.email = ($('#email').val() !== '')
             if(this.email){
                 return true
             } else {
@@ -62,31 +83,53 @@
                 return false
             }
         }
-        checkId(){
-            if(this.id){
+        checkPw(){
+            this.pw = ($('#password').val() !== '')
+            if(this.pw){
                 return true
             } else {
-                alert('id을 입력해주세요')
+                alert('비밀번호를 입력해주세요')
                 return false
             }
         }
-
-
+        checkName(){
+            this.name = ($('#name').val() !== '')
+            if(this.name){
+                return true
+            } else {
+                alert('이름을 입력 해주세요')
+                return false
+            }
+        }
+        checkPwConfirm(){
+            this.pw_confirm = ($('#password').val() === $('#password_confirm').val())
+            if(this.pw_confirm){
+                return true
+            } else {
+                alert('비밀번호 확인을 해주세요')
+                return false
+            }
+        }
 
         joinProcessResult(){
-            if(this.duplicate
-                && this.email
-                && this.id
-                && this.name
-                && this.pw
-                && this.pw_confirm){
-                return true
-            } else {
-                return false
-            }
-
+            if(!this.checkId()){return}
+            if(!this.checkDuplicate()){return}
+            if(!this.checkPw()){return}
+            if(!this.checkPwConfirm()){return}
+            if(!this.checkEmail()){return}
+            if(!this.checkName()){return}
+            return true
+            // if(this.duplicate
+            //     && this.email
+            //     && this.id
+            //     && this.name
+            //     && this.pw
+            //     && this.pw_confirm){
+            //     return true
+            // } else {
+            //     return false
+            // }
         }
-
     }
 
     const joinValidation = new joinProcess();
@@ -111,8 +154,6 @@
                     alert('중복된 ID 입니다.')
                     joinValidation.duplicate = false
                 }
-
-
             },
             error : (e)=>{console.log(e)}
         })
@@ -122,23 +163,15 @@
 
 
   const join =()=>{
-    let params = {
-      user_id : $('#id').val(),
-      user_pw : $('#password').val(),
-      email : $('#email').val(),
-      name : $('#name').val()
-    }
-    console.log(params);
-    if(!joinValidation.duplicate) {
-        alert('ID 중복체크 해주세요')
+
+    if(!joinValidation.joinProcessResult()){
         return
     }
-
 
     $.ajax({
       url : '/join',
       method : 'post',
-      data : JSON.stringify(params),
+      data : JSON.stringify(joinValidation.userInfo()),
       dataType : 'json',
       contentType : 'application/json',
       success : (data)=>{

@@ -7,6 +7,7 @@ public enum ErrorCode {
 
     SUCCESS("0000","message.success"),
     UN_DUPLICATED_ID("0001","message.unduplicated_id"),
+    MAIL_SEND_FAILED("9996","message.mail_send_failed"),
     INVALID_ID("9997","message.invalid_id"),
     DUPLICATED_ID("9998","message.duplicate_userid"),
     FAIL("9999","message.failed")

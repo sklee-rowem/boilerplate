@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+    const CurrentFileName = document.URL.substring(document.URL.lastIndexOf("/") + 1, document.URL.lastIndexOf("/") + 30);
+    $('title').html(CurrentFileName);
+
+</script>
+<body>
+
+<label for="boardName">보드네임
+    <input id="boardName" type="text">
+</label>
+<input type="button" value="생성">
+
+<table>
+    <tr>
+        <td>No</td>
+        <td>Title</td>
+        <td>reg_id</td>
+    </tr>
+
+</table>
+
+
+</body>
+</html>

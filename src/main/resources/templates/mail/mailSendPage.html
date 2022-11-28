@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<body>
+
+<label for="email">email 을 입력하세요
+<input id="email" type="email">
+</label>
+<br/>
+<label for="title">title 을 입력하세요
+<input id="title" type="text">
+</label>
+<br/>
+<label for="content">content 을 입력하세요
+<input id="content" type="text">
+</label>
+<br/>
+<input type="button" value="전송" onclick="mailSend()">
+
+
+
+</body>
+<script>
+    const mailSend =()=>{
+        let obj = {
+            address : $('#email').val(),
+            title : $('#title').val(),
+            message : $('#content').val()
+        }
+        console.log(obj)
+
+        $.ajax({
+            url : 'mail/send',
+            type : 'POST',
+            data : JSON.stringify(obj),
+            dataType : 'json',
+            contentType : 'application/json',
+            success : (data)=>{
+                console.log(data)
+                if(data.errorCode === '0000'){
+                    alert(data.errorMessage)
+                } else if(data.errorCode === '9996') {
+                    alert(data.errorMessage)
+                }
+            },
+            error : (e)=>{
+                console.log(e)
+                alert('메일 발송에 실패했습니다.')
+            }
+
+        })
+
+    }
+
+
+
+
+</script>
+
+</html>
